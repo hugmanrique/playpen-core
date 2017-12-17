@@ -10,8 +10,8 @@
     <version>1.0</version>
 
     <properties>
-        <docker.registry>registry.hub.docker.com/hugmanrique</docker.registry>
-        <docker.image.name>playpen</docker.image.name>
+        <docker.registry>registry.hub.docker.com</docker.registry>
+        <docker.image.name>hugmanrique/playpen</docker.image.name>
     </properties>
 
     <build>

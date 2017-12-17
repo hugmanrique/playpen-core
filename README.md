@@ -1,5 +1,7 @@
 # PlayPen Core
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/hugmanrique/playpen.svg)]()
+
 PlayPen is a generic cross-platform server management and load balancing
 framework. PlayPen is designed primarily for ephemeral services, ones that do
 not need to store any permanent data and can be shut down or spun up at will.
