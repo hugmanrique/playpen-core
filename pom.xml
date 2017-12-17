@@ -9,13 +9,12 @@
     <packaging>jar</packaging>
     <version>1.0</version>
 
-    <distributionManagement>
-        <repository>
-            <id>bintray-playpen-playpen</id>
-            <name>playpen-playpen</name>
-            <url>https://api.bintray.com/maven/playpen/playpen/PlayPen/;publish=1</url>
-        </repository>
-    </distributionManagement>
+    <properties>
+        <docker.skip>false</docker.skip>
+        <docker.repository>docker.io</docker.repository>
+        <docker.image.prefix>hugmanrique</docker.image.prefix>
+        <docker.image.name>playpen</docker.image.name>
+    </properties>
 
     <build>
         <extensions>
@@ -34,6 +33,63 @@
         </resources>
 
         <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${docker.image.name}</imageName>
+                    <baseImage>java:openjdk-8-jdk-alpine</baseImage>
+                    <entryPoint>["java","-jar","/${project.build.finalName}.jar"]</entryPoint>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <serverId>docker-hub</serverId>
+                    <skipDockerBuild>${docker.skip}</skipDockerBuild>
+                    <resources>
+                        <!-- copy the service's jar file from target into the root directory of the image -->
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>tag-image-version</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${docker.image.prefix}/${docker.image.name}</image>
+                            <newName>${docker.repository}/${docker.image.prefix}/${docker.image.name}:${project.version}</newName>
+                            <pushImage>true</pushImage>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tag-image-latest</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${docker.image.prefix}/${docker.image.name}</image>
+                            <newName>${docker.repository}/${docker.image.prefix}/${docker.image.name}:latest</newName>
+                            <pushImage>true</pushImage>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
