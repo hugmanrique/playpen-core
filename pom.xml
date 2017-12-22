@@ -7,11 +7,12 @@
     <groupId>io.playpen</groupId>
     <artifactId>PlayPen</artifactId>
     <packaging>jar</packaging>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <properties>
         <docker.registry>registry.hub.docker.com</docker.registry>
         <docker.image.name>hugmanrique/playpen</docker.image.name>
+        <docker.target>/home/playpen</docker.target>
     </properties>
 
     <build>
@@ -47,7 +48,7 @@
                     <resources>
                         <!-- Copy PlayPen's jar file from target into the root directory of the image -->
                         <resource>
-                            <targetPath>/</targetPath>
+                            <targetPath>${docker.target}</targetPath>
                             <directory>${project.build.directory}</directory>
                             <include>${project.build.finalName}.jar</include>
                         </resource>
