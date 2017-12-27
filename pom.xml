@@ -12,7 +12,7 @@
     <properties>
         <docker.registry>registry.hub.docker.com</docker.registry>
         <docker.image.name>hugmanrique/playpen</docker.image.name>
-        <docker.target>/home/playpen</docker.target>
+        <docker.target>/root/playpen</docker.target>
     </properties>
 
     <build>
