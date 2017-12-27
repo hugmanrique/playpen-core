@@ -32,58 +32,6 @@
         </resources>
 
         <plugins>
-            <plugin>            
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <imageName>${docker.image.name}</imageName>
-                    <baseImage>java:openjdk-8-jdk-alpine</baseImage>
-                    <entryPoint>["java","-jar","${docker.target}/${project.build.finalName}.jar"]</entryPoint>
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                        <imageTag>latest</imageTag>
-                    </imageTags>
-                    <resources>
-                        <!-- Copy PlayPen's jar file from target into the root directory of the image -->
-                        <resource>
-                            <targetPath>${docker.target}</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>tag-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>tag</goal>
-                        </goals>
-                        <configuration>
-                            <image>${docker.image.name}:${project.version}</image>
-                            <newName>${docker.registry}/${docker.image.name}:${project.version}</newName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>push-image</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <imageName>${docker.registry}/${docker.image.name}:${project.version}</imageName>
-                        </configuration>
-                    </execution>        
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
@@ -138,6 +86,58 @@
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>            
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.name}</imageName>
+                    <baseImage>java:openjdk-8-jdk-alpine</baseImage>
+                    <entryPoint>["java","-jar","${docker.target}/${project.build.finalName}.jar"]</entryPoint>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <resources>
+                        <!-- Copy PlayPen's jar file from target into the root directory of the image -->
+                        <resource>
+                            <targetPath>${docker.target}</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>tag-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${docker.image.name}:${project.version}</image>
+                            <newName>${docker.registry}/${docker.image.name}:${project.version}</newName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>push-image</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>${docker.registry}/${docker.image.name}:${project.version}</imageName>
+                        </configuration>
+                    </execution>        
+                </executions>
             </plugin>
         </plugins>
     </build>
