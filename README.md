@@ -20,7 +20,7 @@ This repo is a fork of the original PlayPen project which has a Maven plugin
 (docker-maven-plugin) that automatically deploys the packaged artifact to the
 Docker registry on https://hub.docker.com/r/hugmanrique/playpen/.
 
-You can build the Docker image by running `mvn clean package docker:build`. We use `docker push hugmanrique/playpen` to push the image to Dockerhub.
+You can build the Docker image by running `mvn clean package`.
 
 ## Protobuf Compilation
 
