@@ -32,15 +32,14 @@
         </resources>
 
         <plugins>
-            <plugin>
-                <!-- Run docker tag playpen docker.io:playpen -->
+            <plugin>            
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <configuration>
                     <imageName>${docker.image.name}</imageName>
                     <baseImage>java:openjdk-8-jdk-alpine</baseImage>
-                    <entryPoint>["java","-jar","/${project.build.finalName}.jar"]</entryPoint>
+                    <entryPoint>["java","-jar","${docker.target}/${project.build.finalName}.jar"]</entryPoint>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
                         <imageTag>latest</imageTag>
